@@ -41,9 +41,9 @@ const fuse = new Fuse(REFS_DATA, {
   matchEmptyQuery: !0,
   threshold: .1,
   keys: [
-    { name: "name", weight: 20 }, 
-    { name: 'intro', weight: 2 }, 
-    { name: 'tags', weight: 2 }, 
+    { name: "name", weight: 20 },
+    { name: 'intro', weight: 2 },
+    { name: 'tags', weight: 2 },
     { name: 'sections.t', weight: 5 }
   ],
 });
@@ -74,17 +74,22 @@ let inputValue = '';
 let activeIndex = 0
 
 document.addEventListener('keydown', (ev) => {
-  if (ev.metaKey && ev.key.toLocaleLowerCase() === 'k') {
+  const key = ev.key.toLocaleLowerCase();
+  if (key === 'escape') {
+    hideSearch();
+  }
+  if ((ev.metaKey || ev.ctrlKey) && key === 'k') {
+    ev.preventDefault();
     searchBox.classList.contains('show') ? hideSearch() : showSearch();
   }
-  if (ev.key.toLocaleLowerCase() === 'enter') {
+  if (key === 'enter') {
     const url = activeMenu.path || activeMenu?.item.path;
     window.location.href = getDocUrl(url);
   }
-  if (ev.key.toLocaleLowerCase() === 'arrowdown') {
+  if (key === 'arrowdown') {
     activeAnchorElm('down')
   }
-  if (ev.key.toLocaleLowerCase() === 'arrowup') {
+  if (key === 'arrowup') {
     activeAnchorElm('up')
   }
 });
